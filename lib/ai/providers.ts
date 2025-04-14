@@ -3,6 +3,7 @@ import {
   extractReasoningMiddleware,
   wrapLanguageModel,
 } from 'ai';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { xai } from '@ai-sdk/xai';
 import { isTestEnvironment } from '../constants';
 import {
@@ -11,6 +12,11 @@ import {
   reasoningModel,
   titleModel,
 } from './models.test';
+
+const qwq = createOpenAICompatible({
+  name: 'qwen',
+  baseURL: 'http://183.221.80.21:58001/v1',
+});
 
 export const myProvider = isTestEnvironment
   ? customProvider({
@@ -23,12 +29,15 @@ export const myProvider = isTestEnvironment
     })
   : customProvider({
       languageModels: {
-        'chat-model': xai('grok-2-1212'),
+        'chat-model': wrapLanguageModel({
+          model: qwq('qwq-32k:latest'),
+          middleware: extractReasoningMiddleware({ tagName: 'think' }),
+        }),
         'chat-model-reasoning': wrapLanguageModel({
           model: xai('grok-3-mini-beta'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        'title-model': xai('grok-2-1212'),
+        'title-model': qwq('qwq:latest'),
         'artifact-model': xai('grok-2-1212'),
       },
       imageModels: {

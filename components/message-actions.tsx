@@ -15,6 +15,7 @@ import {
 import { memo } from 'react';
 import equal from 'fast-deep-equal';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 export function PureMessageActions({
   chatId,
@@ -29,6 +30,8 @@ export function PureMessageActions({
 }) {
   const { mutate } = useSWRConfig();
   const [_, copyToClipboard] = useCopyToClipboard();
+  const t = useTranslations('MessageActions');
+  const tErrors = useTranslations('Errors');
 
   if (isLoading) return null;
   if (message.role === 'user') return null;
@@ -49,18 +52,18 @@ export function PureMessageActions({
                   .trim();
 
                 if (!textFromParts) {
-                  toast.error("There's no text to copy!");
+                  toast.error(tErrors('somethingWentWrong'));
                   return;
                 }
 
                 await copyToClipboard(textFromParts);
-                toast.success('Copied to clipboard!');
+                toast.success(t('copy'));
               }}
             >
               <CopyIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Copy</TooltipContent>
+          <TooltipContent>{t('copy')}</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -81,7 +84,7 @@ export function PureMessageActions({
                 });
 
                 toast.promise(upvote, {
-                  loading: 'Upvoting Response...',
+                  loading: '正在点赞...',
                   success: () => {
                     mutate<Array<Vote>>(
                       `/api/vote?chatId=${chatId}`,
@@ -104,16 +107,16 @@ export function PureMessageActions({
                       { revalidate: false },
                     );
 
-                    return 'Upvoted Response!';
+                    return '已点赞!';
                   },
-                  error: 'Failed to upvote response.',
+                  error: tErrors('somethingWentWrong'),
                 });
               }}
             >
               <ThumbUpIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Upvote Response</TooltipContent>
+          <TooltipContent>点赞</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -134,7 +137,7 @@ export function PureMessageActions({
                 });
 
                 toast.promise(downvote, {
-                  loading: 'Downvoting Response...',
+                  loading: '正在踩...',
                   success: () => {
                     mutate<Array<Vote>>(
                       `/api/vote?chatId=${chatId}`,
@@ -157,16 +160,16 @@ export function PureMessageActions({
                       { revalidate: false },
                     );
 
-                    return 'Downvoted Response!';
+                    return '已踩!';
                   },
-                  error: 'Failed to downvote response.',
+                  error: tErrors('somethingWentWrong'),
                 });
               }}
             >
               <ThumbDownIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Downvote Response</TooltipContent>
+          <TooltipContent>踩</TooltipContent>
         </Tooltip>
       </div>
     </TooltipProvider>

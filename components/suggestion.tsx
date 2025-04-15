@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
+import { useTranslations } from 'next-intl';
 
 import type { UISuggestion } from '@/lib/editor/suggestions';
 
@@ -22,6 +23,7 @@ export const Suggestion = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { width: windowWidth } = useWindowSize();
+  const t = useTranslations('Suggestion');
 
   return (
     <AnimatePresence>
@@ -51,7 +53,7 @@ export const Suggestion = ({
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center gap-2">
               <div className="size-4 bg-muted-foreground/25 rounded-full" />
-              <div className="font-medium">Assistant</div>
+              <div className="font-medium">{t('assistant')}</div>
             </div>
             <button
               type="button"
@@ -69,7 +71,7 @@ export const Suggestion = ({
             className="w-fit py-1.5 px-3 rounded-full"
             onClick={onApply}
           >
-            Apply
+            {t('apply')}
           </Button>
         </motion.div>
       )}

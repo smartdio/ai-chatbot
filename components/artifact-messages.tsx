@@ -6,6 +6,7 @@ import { memo } from 'react';
 import equal from 'fast-deep-equal';
 import { UIArtifact } from './artifact';
 import { UseChatHelpers } from '@ai-sdk/react';
+import { useTranslations } from 'next-intl';
 
 interface ArtifactMessagesProps {
   chatId: string;
@@ -29,11 +30,25 @@ function PureArtifactMessages({
 }: ArtifactMessagesProps) {
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
+    
+  // 添加翻译hooks
+  const tArtifact = useTranslations('Artifact');
+  
+  // 创建安全的翻译函数
+  const safeT = (key: string, params?: Record<string, string>) => {
+    try {
+      return tArtifact(key, params);
+    } catch (error) {
+      console.error(`Translation error for key: ${key}`, error);
+      return key;
+    }
+  };
 
   return (
     <div
       ref={messagesContainerRef}
       className="flex flex-col gap-4 h-full items-center overflow-y-scroll px-4 pt-20"
+      aria-label={safeT('messagesContainer')}
     >
       {messages.map((message, index) => (
         <PreviewMessage

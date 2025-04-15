@@ -1,0 +1,133 @@
+{
+    "Common": {
+        "title": "PsyBot",
+        "newChat": "Nueva conversación",
+        "send": "Enviar",
+        "clear": "Limpiar",
+        "settings": "Configuración",
+        "logout": "Cerrar sesión",
+        "darkMode": "Modo oscuro",
+        "lightMode": "Modo claro",
+        "language": "Idioma",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "more": "Más"
+    },
+    "Auth": {
+        "login": "Iniciar sesión",
+        "register": "Registrarse",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "forgotPassword": "¿Olvidó su contraseña?",
+        "continueWith": "O continuar con",
+        "alreadyHaveAccount": "¿Ya tiene una cuenta?",
+        "dontHaveAccount": "¿No tiene una cuenta?",
+        "signIn": "Iniciar sesión",
+        "signUp": "Registrarse",
+        "useEmailPassword": "Use su correo electrónico y contraseña para iniciar sesión",
+        "createAccount": "Cree una cuenta con su correo electrónico y contraseña",
+        "invalidCredentials": "Credenciales inválidas!",
+        "validationFailed": "Error al validar su envío!",
+        "signUpForFree": "Registrarse gratis",
+        "instead": "En su lugar",
+        "userExists": "¡La cuenta ya existe!",
+        "createFailed": "Error al crear la cuenta!",
+        "accountCreated": "¡Cuenta creada con éxito!"
+    },
+    "Chat": {
+        "placeholder": "Escriba un mensaje...",
+        "thinking": "La IA está pensando...",
+        "modelSelector": "Seleccionar un modelo",
+        "newChat": "Nueva conversación",
+        "clearChat": "Limpiar conversación",
+        "uploadFile": "Subir archivo",
+        "drag": "Arrastre y suelte archivos aquí o haga clic para seleccionar",
+        "fileTooLarge": "El archivo es demasiado grande",
+        "fileSizeLimit": "Tamaño máximo del archivo: 5MB"
+    },
+    "Settings": {
+        "language": "Idioma",
+        "deleteAccount": "Eliminar cuenta",
+        "apiKey": "Clave API",
+        "saveChanges": "Guardar cambios",
+        "visibilityOptions": "Opciones de visibilidad",
+        "publicChat": "Público",
+        "privateChat": "Privado",
+        "privateVisibilityDescription": "Solo usted puede acceder a esta conversación",
+        "publicVisibilityDescription": "Cualquier persona con el enlace puede acceder a esta conversación"
+    },
+    "Errors": {
+        "somethingWentWrong": "Algo salió mal",
+        "tryAgain": "Por favor, inténtelo de nuevo",
+        "invalidCredentials": "Correo electrónico o contraseña inválidos",
+        "serverError": "Error del servidor, por favor inténtelo más tarde",
+        "notAuthorized": "No está autorizado para ver este contenido"
+    },
+    "MessageActions": {
+        "copy": "Copiar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "regenerate": "Regenerar",
+        "share": "Compartir"
+    },
+    "Weather": {
+        "current": "Clima actual",
+        "forecast": "Pronóstico",
+        "temperature": "Temperatura",
+        "humidity": "Humedad",
+        "wind": "Viento"
+    },
+    "Sidebar": {
+        "history": "Historial de chat",
+        "noChats": "Aún no hay conversaciones",
+        "searchPlaceholder": "Buscar conversaciones...",
+        "startNewChat": "Iniciar una nueva conversación",
+        "today": "Hoy",
+        "yesterday": "Ayer",
+        "lastWeek": "Última semana",
+        "lastMonth": "Último mes",
+        "older": "Más antiguo",
+        "loadMore": "Cargar más",
+        "loginToSave": "¡Inicie sesión para guardar y revisar sus conversaciones anteriores!",
+        "deletingChat": "Eliminando conversación...",
+        "chatDeleted": "Conversación eliminada con éxito",
+        "confirmDelete": "Confirmar eliminación",
+        "deleteWarning": "Esta acción no se puede deshacer. Eliminará permanentemente su conversación."
+    },
+    "Greeting": {
+        "welcomeGuest": "Bienvenido al Chatbot de IA",
+        "guestMessage": "Inicie sesión para guardar sus conversaciones",
+        "helloUser": "Hola, {name}",
+        "newChatMessage": "Inicie una nueva conversación a continuación",
+        "welcomeBack": "Bienvenido de nuevo, {name}",
+        "continueMessage": "Continúe su conversación"
+    },
+    "ChatHeader": {
+        "untitledChat": "Conversación sin título",
+        "public": "Público",
+        "private": "Privado",
+        "shareChat": "Compartir conversación",
+        "settings": "Configuración"
+    },
+    "Artifact": {
+        "definitionNotFound": "¡No se encontró la definición del componente!",
+        "messagesContainer": "Contenedor de mensajes del componente",
+        "copy": "Copiar",
+        "download": "Descargar",
+        "edit": "Editar",
+        "view": "Ver",
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "latest": "Último",
+        "toggleDiff": "Cambiar vista de comparación",
+        "executing": "Ejecutando acción...",
+        "artifactCopied": "¡Copiado al portapapeles!"
+    },
+    "Form": {
+        "loading": "Cargando...",
+        "submitForm": "Enviar formulario",
+        "saving": "Guardando...",
+        "saved": "Guardado",
+        "submitting": "Enviando..."
+    }
+}

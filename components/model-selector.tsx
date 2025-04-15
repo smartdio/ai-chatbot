@@ -1,6 +1,7 @@
 'use client';
 
 import { startTransition, useMemo, useOptimistic, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { saveChatModelAsCookie } from '@/app/(chat)/actions';
 import { Button } from '@/components/ui/button';
@@ -24,6 +25,7 @@ export function ModelSelector({
   const [open, setOpen] = useState(false);
   const [optimisticModelId, setOptimisticModelId] =
     useOptimistic(selectedModelId);
+  const t = useTranslations('Chat');
 
   const selectedChatModel = useMemo(
     () => chatModels.find((chatModel) => chatModel.id === optimisticModelId),
@@ -43,6 +45,7 @@ export function ModelSelector({
           data-testid="model-selector"
           variant="outline"
           className="md:px-2 md:h-[34px]"
+          aria-label={t('modelSelector')}
         >
           {selectedChatModel?.name}
           <ChevronDownIcon />

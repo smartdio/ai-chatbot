@@ -4,6 +4,9 @@ import Image from 'next/image';
 import type { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
+import { useTranslations } from 'next-intl';
+import { useLocale } from '@/lib/i18n/i18n-provider';
+import { useCallback } from 'react';
 
 import {
   DropdownMenu,
@@ -11,6 +14,11 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
 } from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
@@ -20,6 +28,17 @@ import {
 
 export function SidebarUserNav({ user }: { user: User }) {
   const { setTheme, theme } = useTheme();
+  const { locale, setLocale } = useLocale();
+  const t = useTranslations('Common');
+
+  // 语言切换处理
+  const handleLanguageChange = useCallback((newLocale: string) => {
+    console.log('切换语言：', newLocale);
+    // 设置Cookie
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
+    // 调用setLocale
+    setLocale(newLocale);
+  }, [setLocale]);
 
   return (
     <SidebarMenu>
@@ -46,8 +65,22 @@ export function SidebarUserNav({ user }: { user: User }) {
               className="cursor-pointer"
               onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-              {`Toggle ${theme === 'light' ? 'dark' : 'light'} mode`}
+              {theme === 'light' ? t('darkMode') : t('lightMode')}
             </DropdownMenuItem>
+            
+            {/* 语言选择子菜单 */}
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>{t('language')}</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup value={locale} onValueChange={handleLanguageChange}>
+                  <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="zh">中文</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="es">Español</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="ja">日本語</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+            
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <button
@@ -59,7 +92,7 @@ export function SidebarUserNav({ user }: { user: User }) {
                   });
                 }}
               >
-                Sign out
+                {t('logout')}
               </button>
             </DropdownMenuItem>
           </DropdownMenuContent>

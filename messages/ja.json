@@ -1,0 +1,133 @@
+{
+    "Common": {
+        "title": "PsyBot",
+        "newChat": "新規チャット",
+        "send": "送信",
+        "clear": "クリア",
+        "settings": "設定",
+        "logout": "ログアウト",
+        "darkMode": "ダークモード",
+        "lightMode": "ライトモード",
+        "language": "言語",
+        "cancel": "キャンセル",
+        "delete": "削除",
+        "more": "その他"
+    },
+    "Auth": {
+        "login": "ログイン",
+        "register": "登録",
+        "email": "メールアドレス",
+        "password": "パスワード",
+        "forgotPassword": "パスワードをお忘れですか？",
+        "continueWith": "または次で続行",
+        "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
+        "dontHaveAccount": "アカウントをお持ちでないですか？",
+        "signIn": "ログイン",
+        "signUp": "登録",
+        "useEmailPassword": "メールアドレスとパスワードを使用してログイン",
+        "createAccount": "メールアドレスとパスワードを使用してアカウントを作成",
+        "invalidCredentials": "無効なメールアドレスまたはパスワード",
+        "validationFailed": "検証に失敗しました",
+        "signUpForFree": "無料で登録",
+        "instead": "直接",
+        "userExists": "アカウントが既に存在します",
+        "createFailed": "アカウントの作成に失敗しました",
+        "accountCreated": "アカウントが正常に作成されました"
+    },
+    "Chat": {
+        "placeholder": "メッセージを入力...",
+        "thinking": "AIが考え中...",
+        "modelSelector": "モデルを選択",
+        "newChat": "新規チャット",
+        "clearChat": "チャットをクリア",
+        "uploadFile": "ファイルをアップロード",
+        "drag": "ここにファイルをドラッグ＆ドロップするか、クリックして選択",
+        "fileTooLarge": "ファイルが大きすぎます",
+        "fileSizeLimit": "最大ファイルサイズ：5MB"
+    },
+    "Settings": {
+        "language": "言語",
+        "deleteAccount": "アカウント削除",
+        "apiKey": "APIキー",
+        "saveChanges": "変更を保存",
+        "visibilityOptions": "表示オプション",
+        "publicChat": "公開",
+        "privateChat": "非公開",
+        "privateVisibilityDescription": "このチャットにはあなただけがアクセスできます",
+        "publicVisibilityDescription": "リンクを持っている人なら誰でもこのチャットにアクセスできます"
+    },
+    "Errors": {
+        "somethingWentWrong": "問題が発生しました",
+        "tryAgain": "もう一度お試しください",
+        "invalidCredentials": "無効なメールアドレスまたはパスワード",
+        "serverError": "サーバーエラー、後ほど再試行してください",
+        "notAuthorized": "このコンテンツを表示する権限がありません"
+    },
+    "MessageActions": {
+        "copy": "コピー",
+        "delete": "削除",
+        "edit": "編集",
+        "regenerate": "再生成",
+        "share": "共有"
+    },
+    "Weather": {
+        "current": "現在の天気",
+        "forecast": "天気予報",
+        "temperature": "気温",
+        "humidity": "湿度",
+        "wind": "風"
+    },
+    "Sidebar": {
+        "history": "チャット履歴",
+        "noChats": "まだチャットがありません",
+        "searchPlaceholder": "チャットを検索...",
+        "startNewChat": "新しいチャットを開始",
+        "today": "今日",
+        "yesterday": "昨日",
+        "lastWeek": "先週",
+        "lastMonth": "先月",
+        "older": "それ以前",
+        "loadMore": "もっと読み込む",
+        "loginToSave": "ログインして会話を保存・閲覧しましょう！",
+        "deletingChat": "チャットを削除中...",
+        "chatDeleted": "チャットが削除されました",
+        "confirmDelete": "削除の確認",
+        "deleteWarning": "この操作は元に戻せません。チャットは完全に削除されます。"
+    },
+    "Greeting": {
+        "welcomeGuest": "AIチャットボットへようこそ",
+        "guestMessage": "会話を保存するにはサインインしてください",
+        "helloUser": "こんにちは、{name}さん",
+        "newChatMessage": "下から新しい会話を始めましょう",
+        "welcomeBack": "お帰りなさい、{name}さん",
+        "continueMessage": "会話を続けましょう"
+    },
+    "ChatHeader": {
+        "untitledChat": "無題のチャット",
+        "public": "公開",
+        "private": "非公開",
+        "shareChat": "チャットを共有",
+        "settings": "設定"
+    },
+    "Artifact": {
+        "definitionNotFound": "コンポーネントの定義が見つかりませんでした",
+        "messagesContainer": "コンポーネントのメッセージコンテナ",
+        "copy": "コピー",
+        "download": "ダウンロード",
+        "edit": "編集",
+        "view": "表示",
+        "previous": "前のバージョン",
+        "next": "次のバージョン",
+        "latest": "最新のバージョン",
+        "toggleDiff": "差分表示の切り替え",
+        "executing": "実行中...",
+        "artifactCopied": "コピーがクリップボードにコピーされました"
+    },
+    "Form": {
+        "loading": "読み込み中...",
+        "submitForm": "フォームを送信",
+        "saving": "保存中...",
+        "saved": "保存されました",
+        "submitting": "送信中..."
+    }
+}

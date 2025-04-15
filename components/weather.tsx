@@ -3,6 +3,7 @@
 import cx from 'classnames';
 import { format, isWithinInterval } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface WeatherAtLocation {
   latitude: number;
@@ -198,7 +199,7 @@ const SAMPLE = {
 };
 
 function n(num: number): number {
-  return Math.ceil(num);
+  return Math.round(num * 10) / 10;
 }
 
 export function Weather({
@@ -206,23 +207,15 @@ export function Weather({
 }: {
   weatherAtLocation?: WeatherAtLocation;
 }) {
-  const currentHigh = Math.max(
-    ...weatherAtLocation.hourly.temperature_2m.slice(0, 24),
-  );
-  const currentLow = Math.min(
-    ...weatherAtLocation.hourly.temperature_2m.slice(0, 24),
-  );
-
-  const isDay = isWithinInterval(new Date(weatherAtLocation.current.time), {
-    start: new Date(weatherAtLocation.daily.sunrise[0]),
-    end: new Date(weatherAtLocation.daily.sunset[0]),
-  });
-
-  const [isMobile, setIsMobile] = useState(false);
+  const [chartWidth, setChartWidth] = useState(0);
+  const t = useTranslations('Weather');
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const container = document.getElementById('weather-container');
+      if (container) {
+        setChartWidth(container.offsetWidth);
+      }
     };
 
     handleResize();
@@ -231,80 +224,146 @@ export function Weather({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const hoursToShow = isMobile ? 5 : 6;
+  const hourlyTimes = weatherAtLocation.hourly.time;
+  const hourlyTemperatures = weatherAtLocation.hourly.temperature_2m;
 
-  // Find the index of the current time or the next closest time
-  const currentTimeIndex = weatherAtLocation.hourly.time.findIndex(
-    (time) => new Date(time) >= new Date(weatherAtLocation.current.time),
-  );
+  const times = hourlyTimes.slice(0, 24).map((time, i) => {
+    return {
+      time,
+      temperature: hourlyTemperatures[i],
+    };
+  });
 
-  // Slice the arrays to get the desired number of items
-  const displayTimes = weatherAtLocation.hourly.time.slice(
-    currentTimeIndex,
-    currentTimeIndex + hoursToShow,
-  );
-  const displayTemperatures = weatherAtLocation.hourly.temperature_2m.slice(
-    currentTimeIndex,
-    currentTimeIndex + hoursToShow,
-  );
+  const maxTemperature = Math.max(...times.map((t) => t.temperature));
+  const minTemperature = Math.min(...times.map((t) => t.temperature));
+  const temperatureRange = maxTemperature - minTemperature || 10;
+
+  const sunrise = new Date(weatherAtLocation.daily.sunrise[0]);
+  const sunset = new Date(weatherAtLocation.daily.sunset[0]);
+  const now = new Date(weatherAtLocation.current.time);
+  const isDaytime = isWithinInterval(now, { start: sunrise, end: sunset });
+
+  const barSize = 9;
+  const barSpacing = 4;
+  const paddingX = 16;
+  const chartHeight = 100;
 
   return (
     <div
-      className={cx(
-        'flex flex-col gap-4 rounded-2xl p-4 skeleton-bg max-w-[500px]',
-        {
-          'bg-blue-400': isDay,
-        },
-        {
-          'bg-indigo-900': !isDay,
-        },
-      )}
+      id="weather-container"
+      className="py-4 bg-gradient-to-r rounded-xl from-background/75 dark:from-background/10 via-background dark:via-background/20 to-background/75 dark:to-background/10"
     >
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-row gap-2 items-center">
-          <div
-            className={cx(
-              'size-10 rounded-full skeleton-div',
-              {
-                'bg-yellow-300': isDay,
-              },
-              {
-                'bg-indigo-100': !isDay,
-              },
-            )}
-          />
-          <div className="text-4xl font-medium text-blue-50">
-            {n(weatherAtLocation.current.temperature_2m)}
-            {weatherAtLocation.current_units.temperature_2m}
+      <div className="flex flex-col sm:flex-row gap-2 mx-6 sm:mx-8 mb-6">
+        <div className="flex flex-col">
+          <div className="text-sm text-muted-foreground">
+            {t('current')}
+          </div>
+          <div className="flex flex-row items-center gap-2">
+            <div className="text-xl font-medium">
+              {n(weatherAtLocation.current.temperature_2m)}{' '}
+              {weatherAtLocation.current_units.temperature_2m}
+            </div>
+            <div className="size-3 bg-sky-400 rounded-full" />
           </div>
         </div>
 
-        <div className="text-blue-50">{`H:${n(currentHigh)}° L:${n(currentLow)}°`}</div>
-      </div>
-
-      <div className="flex flex-row justify-between">
-        {displayTimes.map((time, index) => (
-          <div key={time} className="flex flex-col items-center gap-1">
-            <div className="text-blue-100 text-xs">
-              {format(new Date(time), 'ha')}
+        <div className="flex flex-col sm:ml-8">
+          <div className="text-sm text-muted-foreground">
+            {t('forecast')}
+          </div>
+          <div className="flex flex-row items-center gap-2">
+            <div
+              className={
+                isDaytime
+                  ? 'text-sm rounded-full bg-yellow-500 px-2 py-0.5 text-black'
+                  : 'text-sm rounded-full bg-blue-500 px-2 py-0.5 text-white'
+              }
+            >
+              {isDaytime ? 'Day' : 'Night'}
             </div>
             <div
-              className={cx(
-                'size-6 rounded-full skeleton-div',
-                {
-                  'bg-yellow-300': isDay,
-                },
-                {
-                  'bg-indigo-200': !isDay,
-                },
-              )}
-            />
-            <div className="text-blue-50 text-sm">
-              {n(displayTemperatures[index])}
-              {weatherAtLocation.hourly_units.temperature_2m}
+              className={cx('text-sm rounded-full px-2 py-0.5', {
+                'bg-red-500 text-white':
+                  weatherAtLocation.current.temperature_2m > 30,
+                'bg-orange-500 text-white':
+                  weatherAtLocation.current.temperature_2m > 20 &&
+                  weatherAtLocation.current.temperature_2m <= 30,
+                'bg-green-500 text-white':
+                  weatherAtLocation.current.temperature_2m > 10 &&
+                  weatherAtLocation.current.temperature_2m <= 20,
+                'bg-blue-500 text-white':
+                  weatherAtLocation.current.temperature_2m <= 10,
+              })}
+            >
+              {weatherAtLocation.current.temperature_2m > 30
+                ? 'Hot'
+                : weatherAtLocation.current.temperature_2m > 20
+                ? 'Warm'
+                : weatherAtLocation.current.temperature_2m > 10
+                ? 'Cool'
+                : 'Cold'}
             </div>
           </div>
-        ))}
+        </div>
+      </div>
+
+      <div className="mb-4 mt-10 flex flex-col gap-0.5 px-10 overflow-x-scroll scrollbar-hide">
+        <div className="relative h-[100px] w-full">
+          {times.map((t, i) => {
+            const hour = new Date(t.time).getHours();
+            const formattedHour = hour === 0 ? '12am' : hour === 12 ? '12pm' : hour > 12 ? `${hour - 12}pm` : `${hour}am`;
+
+            const height =
+              ((t.temperature - minTemperature) / temperatureRange) *
+                chartHeight || 0;
+
+            const left = i * (barSize + barSpacing) + paddingX;
+
+            const isNow =
+              new Date(t.time).getHours() === new Date().getHours() &&
+              new Date(t.time).getDate() === new Date().getDate();
+
+            return (
+              <div
+                key={i}
+                className="absolute flex flex-col items-center justify-end mb-8"
+                style={{ left, height: chartHeight }}
+              >
+                <div
+                  className={cx('w-2 rounded-sm', {
+                    'bg-sky-400': !isNow,
+                    'bg-blue-600': isNow,
+                  })}
+                  style={{ height: `${height}%` }}
+                />
+                <div
+                  className={cx(
+                    'text-[10px] font-medium absolute text-center w-8 whitespace-nowrap',
+                    {
+                      'text-foreground': isNow,
+                      'text-muted-foreground': !isNow,
+                    },
+                  )}
+                  style={{ bottom: -24 }}
+                >
+                  {formattedHour}
+                </div>
+                <div
+                  className={cx(
+                    'text-[11px] font-medium absolute text-center w-8 whitespace-nowrap',
+                    {
+                      'text-foreground': isNow,
+                      'text-muted-foreground': !isNow,
+                    },
+                  )}
+                  style={{ bottom: -42 }}
+                >
+                  {n(t.temperature)}°
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

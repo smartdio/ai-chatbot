@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
+import { useTranslations } from 'next-intl';
 
 import { ModelSelector } from '@/components/model-selector';
 import { SidebarToggle } from '@/components/sidebar-toggle';
@@ -26,6 +27,7 @@ function PureChatHeader({
 }) {
   const router = useRouter();
   const { open } = useSidebar();
+  const t = useTranslations('Common');
 
   const { width: windowWidth } = useWindowSize();
 
@@ -45,10 +47,10 @@ function PureChatHeader({
               }}
             >
               <PlusIcon />
-              <span className="md:sr-only">New Chat</span>
+              <span className="md:sr-only">{t('newChat')}</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>New Chat</TooltipContent>
+          <TooltipContent>{t('newChat')}</TooltipContent>
         </Tooltip>
       )}
 
@@ -67,7 +69,7 @@ function PureChatHeader({
         />
       )}
 
-      <Button
+      {/* <Button
         className="bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-zinc-50 dark:text-zinc-900 hidden md:flex py-1.5 px-2 h-fit md:h-[34px] order-4 md:ml-auto"
         asChild
       >
@@ -78,7 +80,7 @@ function PureChatHeader({
           <VercelIcon size={16} />
           Deploy with Vercel
         </Link>
-      </Button>
+      </Button> */}
     </header>
   );
 }

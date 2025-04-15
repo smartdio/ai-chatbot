@@ -18,6 +18,11 @@ const qwq = createOpenAICompatible({
   baseURL: 'http://183.221.80.21:58001/v1',
 });
 
+const proModel = createOpenAICompatible({
+  name: 'pro-model',
+  baseURL: 'http://43.156.25.63:8000/v1',
+});
+
 export const myProvider = isTestEnvironment
   ? customProvider({
       languageModels: {
@@ -31,6 +36,10 @@ export const myProvider = isTestEnvironment
       languageModels: {
         'chat-model': wrapLanguageModel({
           model: qwq('qwq-32k:latest'),
+          middleware: extractReasoningMiddleware({ tagName: 'think' }),
+        }),
+        'pro-model': wrapLanguageModel({
+          model: proModel('james'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
         'chat-model-reasoning': wrapLanguageModel({

@@ -2,6 +2,7 @@
 
 import type { User } from 'next-auth';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { PlusIcon } from '@/components/icons';
 import { SidebarHistory } from '@/components/sidebar-history';
@@ -21,6 +22,19 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
   const { setOpenMobile } = useSidebar();
+  
+  // 添加翻译hooks
+  const t = useTranslations('Common');
+  
+  // 创建安全的翻译函数，如果翻译抛出错误则返回键名
+  const safeT = (key: string, params?: Record<string, string>) => {
+    try {
+      return t(key, params);
+    } catch (error) {
+      console.error(`Translation error for key: ${key}`, error);
+      return key;
+    }
+  };
 
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
@@ -35,7 +49,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               className="flex flex-row gap-3 items-center"
             >
               <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
-                Chatbot
+                {safeT('title')}
               </span>
             </Link>
             <Tooltip>
@@ -53,7 +67,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                   <PlusIcon />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent align="end">New Chat</TooltipContent>
+              <TooltipContent align="end">{safeT('newChat')}</TooltipContent>
             </Tooltip>
           </div>
         </SidebarMenu>

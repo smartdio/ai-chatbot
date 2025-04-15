@@ -2,6 +2,10 @@ import { Toaster } from 'sonner';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
+import { I18nProvider } from '@/lib/i18n/i18n-provider';
+import { cookies } from 'next/headers';
+import { LanguageDebug } from '@/components/language-debug';
+import { locales, defaultLocale } from '@/lib/i18n/utils';
 
 import './globals.css';
 
@@ -47,14 +51,47 @@ const THEME_COLOR_SCRIPT = `\
   updateThemeColor();
 })();`;
 
+// 判断是否为开发环境
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // 直接从Cookie中获取语言设置
+  const cookieStore = cookies();
+  const cookieLocale = cookieStore.get('NEXT_LOCALE')?.value;
+  
+  // 确保locale是受支持的语言，否则使用默认语言
+  const locale = cookieLocale && locales.includes(cookieLocale) 
+    ? cookieLocale 
+    : defaultLocale;
+    
+  console.log(`[layout] 使用语言: ${locale} (从Cookie: ${cookieLocale || '未设置'})`);
+  
+  // 预加载默认语言和当前语言的翻译
+  const messages: Record<string, any> = {};
+  
+  try {
+    // 加载英语（始终加载作为后备）
+    messages['en'] = (await import('@/messages/en.json')).default;
+    
+    // 如果当前语言不是英语，加载当前语言
+    if (locale !== 'en') {
+      try {
+        messages[locale] = (await import(`@/messages/${locale}.json`)).default;
+      } catch (e) {
+        console.error(`Failed to load messages for ${locale}`);
+      }
+    }
+  } catch (error) {
+    console.error('Error loading translation files:', error);
+  }
+
   return (
     <html
-      lang="en"
+      lang={locale}
       // `next-themes` injects an extra classname to the body element to avoid
       // visual flicker before hydration. Hence the `suppressHydrationWarning`
       // prop is necessary to avoid the React hydration mismatch warning.
@@ -76,8 +113,11 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster position="top-center" />
-          {children}
+          <I18nProvider initialLocale={locale} messages={messages}>
+            <Toaster position="top-center" />
+            {children}
+            {isDevelopment && <LanguageDebug />}
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -15,6 +15,7 @@ import {
 } from 'react';
 import { toast } from 'sonner';
 import { useLocalStorage, useWindowSize } from 'usehooks-ts';
+import { useTranslations } from 'next-intl';
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons';
 import { PreviewAttachment } from './preview-attachment';
@@ -53,6 +54,8 @@ function PureMultimodalInput({
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
+  const tChat = useTranslations('Chat');
+  const tErrors = useTranslations('Errors');
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -149,7 +152,7 @@ function PureMultimodalInput({
       const { error } = await response.json();
       toast.error(error);
     } catch (error) {
-      toast.error('Failed to upload file, please try again!');
+      toast.error(tErrors('fileTooLarge'));
     }
   };
 
@@ -176,7 +179,7 @@ function PureMultimodalInput({
         setUploadQueue([]);
       }
     },
-    [setAttachments],
+    [setAttachments, tErrors],
   );
 
   return (
@@ -222,7 +225,7 @@ function PureMultimodalInput({
       <Textarea
         data-testid="multimodal-input"
         ref={textareaRef}
-        placeholder="Send a message..."
+        placeholder={tChat('placeholder')}
         value={input}
         onChange={handleInput}
         className={cx(
@@ -240,7 +243,7 @@ function PureMultimodalInput({
             event.preventDefault();
 
             if (status !== 'ready') {
-              toast.error('Please wait for the model to finish its response!');
+              toast.error(tErrors('waitForModel'));
             } else {
               submitForm();
             }
@@ -248,35 +251,22 @@ function PureMultimodalInput({
         }}
       />
 
-      <div className="absolute bottom-0 p-2 w-fit flex flex-row justify-start">
-        <AttachmentsButton fileInputRef={fileInputRef} status={status} />
-      </div>
+      <div className="absolute bottom-2 right-2 flex flex-row items-center gap-2">
+        <PureAttachmentsButton fileInputRef={fileInputRef} status={status} />
 
-      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
-        {status === 'submitted' ? (
-          <StopButton stop={stop} setMessages={setMessages} />
-        ) : (
-          <SendButton
-            input={input}
-            submitForm={submitForm}
-            uploadQueue={uploadQueue}
-          />
+        {status === 'streaming' && (
+          <PureStopButton stop={stop} setMessages={setMessages} />
         )}
+
+        <PureSendButton
+          submitForm={submitForm}
+          input={input}
+          uploadQueue={uploadQueue}
+        />
       </div>
     </div>
   );
 }
-
-export const MultimodalInput = memo(
-  PureMultimodalInput,
-  (prevProps, nextProps) => {
-    if (prevProps.input !== nextProps.input) return false;
-    if (prevProps.status !== nextProps.status) return false;
-    if (!equal(prevProps.attachments, nextProps.attachments)) return false;
-
-    return true;
-  },
-);
 
 function PureAttachmentsButton({
   fileInputRef,
@@ -285,23 +275,22 @@ function PureAttachmentsButton({
   fileInputRef: React.MutableRefObject<HTMLInputElement | null>;
   status: UseChatHelpers['status'];
 }) {
+  const tChat = useTranslations('Chat');
+  
   return (
     <Button
-      data-testid="attachments-button"
-      className="rounded-md rounded-bl-lg p-[7px] h-fit dark:border-zinc-700 hover:dark:bg-zinc-900 hover:bg-zinc-200"
-      onClick={(event) => {
-        event.preventDefault();
+      variant="ghost"
+      className="size-9 rounded-full p-0"
+      onClick={() => {
         fileInputRef.current?.click();
       }}
-      disabled={status !== 'ready'}
-      variant="ghost"
+      disabled={status === 'streaming'}
+      title={tChat('uploadFile')}
     >
-      <PaperclipIcon size={14} />
+      <PaperclipIcon />
     </Button>
   );
 }
-
-const AttachmentsButton = memo(PureAttachmentsButton);
 
 function PureStopButton({
   stop,
@@ -310,22 +299,33 @@ function PureStopButton({
   stop: () => void;
   setMessages: UseChatHelpers['setMessages'];
 }) {
+  const tChat = useTranslations('Chat');
+  
   return (
     <Button
       data-testid="stop-button"
-      className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
-      onClick={(event) => {
-        event.preventDefault();
+      variant="ghost"
+      className="size-9 rounded-full p-0"
+      onClick={() => {
         stop();
-        setMessages((messages) => messages);
+        setMessages((messages) => {
+          // remove last user and assistant messages
+          if (messages.length === 0) return messages;
+
+          const lastMessage = messages[messages.length - 1];
+          if (lastMessage.role === 'assistant') {
+            return messages.slice(0, -2);
+          }
+
+          return messages.slice(0, -1);
+        });
       }}
+      title={tChat('stop')}
     >
-      <StopIcon size={14} />
+      <StopIcon />
     </Button>
   );
 }
-
-const StopButton = memo(PureStopButton);
 
 function PureSendButton({
   submitForm,
@@ -336,24 +336,41 @@ function PureSendButton({
   input: string;
   uploadQueue: Array<string>;
 }) {
+  const tCommon = useTranslations('Common');
+  
   return (
     <Button
       data-testid="send-button"
-      className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
-      onClick={(event) => {
-        event.preventDefault();
+      variant="ghost"
+      className="size-9 rounded-full p-0"
+      disabled={
+        (input.trim().length === 0 && uploadQueue.length === 0) ||
+        uploadQueue.length > 0
+      }
+      onClick={() => {
         submitForm();
       }}
-      disabled={input.length === 0 || uploadQueue.length > 0}
+      title={tCommon('send')}
     >
-      <ArrowUpIcon size={14} />
+      <ArrowUpIcon />
     </Button>
   );
 }
 
-const SendButton = memo(PureSendButton, (prevProps, nextProps) => {
-  if (prevProps.uploadQueue.length !== nextProps.uploadQueue.length)
+const isEqual = (
+  prevProps: { input: string },
+  nextProps: { input: string },
+) => {
+  return prevProps.input.trim() === nextProps.input.trim();
+};
+
+export const MultimodalInput = memo(PureMultimodalInput, (prevProps, nextProps) => {
+  if (
+    !equal(prevProps.attachments, nextProps.attachments) ||
+    prevProps.status !== nextProps.status
+  ) {
     return false;
-  if (prevProps.input !== nextProps.input) return false;
-  return true;
+  }
+
+  return isEqual(prevProps, nextProps);
 });

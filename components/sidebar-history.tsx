@@ -27,6 +27,7 @@ import { fetcher } from '@/lib/utils';
 import { ChatItem } from './sidebar-history-item';
 import useSWRInfinite from 'swr/infinite';
 import { LoaderIcon } from './icons';
+import { useTranslations } from 'next-intl';
 
 type GroupedChats = {
   today: Chat[];
@@ -96,6 +97,39 @@ export function getChatHistoryPaginationKey(
 export function SidebarHistory({ user }: { user: User | undefined }) {
   const { setOpenMobile } = useSidebar();
   const { id } = useParams();
+  
+  // 始终无条件调用Hooks
+  const t = useTranslations('Sidebar');
+  const tCommon = useTranslations('Common');
+  const tErrors = useTranslations('Errors');
+  
+  // 创建安全的翻译函数，如果翻译抛出错误则返回键名
+  const safeT = (key: string, params?: Record<string, string>) => {
+    try {
+      return t(key, params);
+    } catch (error) {
+      console.error(`Translation error for key: ${key}`, error);
+      return key;
+    }
+  };
+  
+  const safeTCommon = (key: string, params?: Record<string, string>) => {
+    try {
+      return tCommon(key, params);
+    } catch (error) {
+      console.error(`Common translation error for key: ${key}`, error);
+      return key;
+    }
+  };
+  
+  const safeTErrors = (key: string, params?: Record<string, string>) => {
+    try {
+      return tErrors(key, params);
+    } catch (error) {
+      console.error(`Error translation error for key: ${key}`, error);
+      return key;
+    }
+  };
 
   const {
     data: paginatedChatHistories,
@@ -125,7 +159,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     });
 
     toast.promise(deletePromise, {
-      loading: 'Deleting chat...',
+      loading: safeT('deletingChat'),
       success: () => {
         mutate((chatHistories) => {
           if (chatHistories) {
@@ -134,11 +168,12 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               chats: chatHistory.chats.filter((chat) => chat.id !== deleteId),
             }));
           }
+          return chatHistories;
         });
 
-        return 'Chat deleted successfully';
+        return safeT('chatDeleted');
       },
-      error: 'Failed to delete chat',
+      error: safeTErrors('somethingWentWrong'),
     });
 
     setShowDeleteDialog(false);
@@ -153,7 +188,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
       <SidebarGroup>
         <SidebarGroupContent>
           <div className="px-2 text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2">
-            Login to save and revisit previous chats!
+            {safeT('loginToSave')}
           </div>
         </SidebarGroupContent>
       </SidebarGroup>
@@ -164,7 +199,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     return (
       <SidebarGroup>
         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
-          Today
+          {safeT('today')}
         </div>
         <SidebarGroupContent>
           <div className="flex flex-col">
@@ -194,7 +229,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
       <SidebarGroup>
         <SidebarGroupContent>
           <div className="px-2 text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2">
-            Your conversations will appear here once you start chatting!
+            {safeT('noChats')}
           </div>
         </SidebarGroupContent>
       </SidebarGroup>
@@ -219,7 +254,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                     {groupedChats.today.length > 0 && (
                       <div>
                         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
-                          Today
+                          {safeT('today')}
                         </div>
                         {groupedChats.today.map((chat) => (
                           <ChatItem
@@ -239,7 +274,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                     {groupedChats.yesterday.length > 0 && (
                       <div>
                         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
-                          Yesterday
+                          {safeT('yesterday')}
                         </div>
                         {groupedChats.yesterday.map((chat) => (
                           <ChatItem
@@ -259,7 +294,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                     {groupedChats.lastWeek.length > 0 && (
                       <div>
                         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
-                          Last 7 days
+                          {safeT('lastWeek')}
                         </div>
                         {groupedChats.lastWeek.map((chat) => (
                           <ChatItem
@@ -279,7 +314,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                     {groupedChats.lastMonth.length > 0 && (
                       <div>
                         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
-                          Last 30 days
+                          {safeT('lastMonth')}
                         </div>
                         {groupedChats.lastMonth.map((chat) => (
                           <ChatItem
@@ -299,7 +334,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                     {groupedChats.older.length > 0 && (
                       <div>
                         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
-                          Older than last month
+                          {safeT('older')}
                         </div>
                         {groupedChats.older.map((chat) => (
                           <ChatItem
@@ -315,47 +350,46 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                         ))}
                       </div>
                     )}
+
+                    {isValidating ? (
+                      <div className="w-full flex justify-center my-4">
+                        <LoaderIcon size={16} />
+                      </div>
+                    ) : (
+                      !hasReachedEnd && (
+                        <button
+                          data-testid="sidebar-load-more"
+                          onClick={() => {
+                            setSize((currentSize) => currentSize + 1);
+                          }}
+                          className="py-2 text-xs text-center text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors"
+                        >
+                          {safeT('loadMore')}
+                        </button>
+                      )
+                    )}
                   </div>
                 );
               })()}
           </SidebarMenu>
-
-          <motion.div
-            onViewportEnter={() => {
-              if (!isValidating && !hasReachedEnd) {
-                setSize((size) => size + 1);
-              }
-            }}
-          />
-
-          {hasReachedEnd ? (
-            <div className="px-2 text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2 mt-8">
-              You have reached the end of your chat history.
-            </div>
-          ) : (
-            <div className="p-2 text-zinc-500 dark:text-zinc-400 flex flex-row gap-2 items-center mt-8">
-              <div className="animate-spin">
-                <LoaderIcon />
-              </div>
-              <div>Loading Chats...</div>
-            </div>
-          )}
         </SidebarGroupContent>
       </SidebarGroup>
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>{safeT('confirmDelete')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              chat and remove it from our servers.
+              {safeT('deleteWarning')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>
-              Continue
+            <AlertDialogCancel>{safeTCommon('cancel')}</AlertDialogCancel>
+            <AlertDialogAction
+              data-testid="confirm-delete"
+              onClick={handleDelete}
+            >
+              {safeTCommon('delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,0 +1,83 @@
+# AI聊天机器人组件国际化实现指南
+
+本文档提供关于如何在组件中正确实现国际化(i18n)功能的核心指导。
+
+## 基本原则
+
+1. **集中管理翻译文本**：所有翻译在`messages/`目录的JSON文件中管理
+2. **结构化组织**：翻译文本按功能模块组织，如`Common`, `Chat`, `Sidebar`等
+3. **使用next-intl**：统一使用`next-intl`库处理翻译
+
+## 组件实现要点
+
+### 1. 使用正确的hook
+
+```tsx
+// 导入hook
+import { useTranslations } from 'next-intl';
+
+// 在组件中使用hook
+const t = useTranslations('Sidebar');
+
+// 需要多个命名空间时
+const tCommon = useTranslations('Common');
+const tErrors = useTranslations('Errors');
+```
+
+### 2. 正确访问翻译
+
+```tsx
+// 使用函数调用方式访问翻译
+<Button>{t('send')}</Button>
+<p>{tErrors('somethingWentWrong')}</p>
+
+// 带参数的翻译
+<h2>{t('welcomeBack', { name: username })}</h2>
+```
+
+## 翻译文件结构
+
+```json
+{
+  "Common": {
+    "send": "Send",
+    "cancel": "Cancel"
+  },
+  "Sidebar": {
+    "history": "History",
+    "noChats": "No chats yet"
+  }
+}
+```
+
+## 实用组件示例
+
+```tsx
+'use client';
+
+import { useTranslations } from 'next-intl';
+
+export const Greeting = () => {
+  const t = useTranslations('Greeting');
+  
+  return (
+    <div className="text-center">
+      <h1>{t('welcomeGuest')}</h1>
+      <p>{t('guestMessage')}</p>
+    </div>
+  );
+};
+```
+
+## 最佳实践
+
+1. **一致的命名空间**：按组件或功能区域组织翻译文本
+2. **避免硬编码**：使用翻译函数而非硬编码文本
+3. **默认语言完整性**：英语翻译文件应包含所有翻译键
+
+## 核心要点
+
+1. 使用`useTranslations('命名空间')`获取翻译函数
+2. 使用函数调用方式`t('键名')`访问翻译文本
+3. 按命名空间组织翻译，保持结构清晰
+4. 所有文本显示都使用翻译函数 

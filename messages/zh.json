@@ -1,0 +1,134 @@
+{
+    "Common": {
+        "title": "PsyBot",
+        "newChat": "新对话",
+        "send": "发送",
+        "clear": "清除",
+        "settings": "设置",
+        "logout": "退出登录",
+        "darkMode": "深色模式",
+        "lightMode": "浅色模式",
+        "language": "语言",
+        "cancel": "取消",
+        "delete": "删除",
+        "more": "更多"
+    },
+    "Auth": {
+        "login": "登录",
+        "register": "注册",
+        "email": "电子邮箱",
+        "password": "密码",
+        "forgotPassword": "忘记密码？",
+        "continueWith": "或继续使用",
+        "alreadyHaveAccount": "已有账号？",
+        "dontHaveAccount": "没有账号？",
+        "signIn": "登录",
+        "signUp": "注册",
+        "useEmailPassword": "使用您的邮箱和密码登录",
+        "createAccount": "使用您的邮箱和密码创建账号",
+        "invalidCredentials": "凭证无效！",
+        "validationFailed": "提交验证失败！",
+        "signUpForFree": "免费注册",
+        "instead": "直接",
+        "userExists": "账号已存在！",
+        "createFailed": "创建账号失败！",
+        "accountCreated": "账号创建成功！"
+    },
+    "Chat": {
+        "placeholder": "输入消息...",
+        "thinking": "AI 正在思考...",
+        "modelSelector": "选择模型",
+        "newChat": "新对话",
+        "clearChat": "清空对话",
+        "uploadFile": "上传文件",
+        "drag": "拖放文件到这里或点击选择",
+        "fileTooLarge": "文件太大",
+        "fileSizeLimit": "最大文件大小：5MB"
+    },
+    "Settings": {
+        "language": "语言",
+        "deleteAccount": "删除账号",
+        "apiKey": "API 密钥",
+        "saveChanges": "保存更改",
+        "visibilityOptions": "可见性选项",
+        "publicChat": "公开",
+        "privateChat": "私密",
+        "privateVisibilityDescription": "只有您可以访问此对话",
+        "publicVisibilityDescription": "任何拥有链接的人都可以访问此对话"
+    },
+    "Errors": {
+        "somethingWentWrong": "出了些问题",
+        "tryAgain": "请重试",
+        "invalidCredentials": "邮箱或密码无效",
+        "serverError": "服务器错误，请稍后重试",
+        "notAuthorized": "您无权查看此内容",
+        "failedToExecuteAction": "执行操作失败"
+    },
+    "MessageActions": {
+        "copy": "复制",
+        "delete": "删除",
+        "edit": "编辑",
+        "regenerate": "重新生成",
+        "share": "分享"
+    },
+    "Weather": {
+        "current": "当前天气",
+        "forecast": "天气预报",
+        "temperature": "温度",
+        "humidity": "湿度",
+        "wind": "风力"
+    },
+    "Sidebar": {
+        "history": "聊天历史",
+        "noChats": "暂无聊天",
+        "searchPlaceholder": "搜索聊天...",
+        "startNewChat": "开始新的聊天",
+        "today": "今天",
+        "yesterday": "昨天",
+        "lastWeek": "上周",
+        "lastMonth": "上个月",
+        "older": "更早",
+        "loadMore": "加载更多",
+        "loginToSave": "登录以保存和查看您的聊天记录！",
+        "deletingChat": "正在删除聊天...",
+        "chatDeleted": "聊天已成功删除",
+        "confirmDelete": "确认删除",
+        "deleteWarning": "此操作无法撤销，将永久删除您的聊天记录。"
+    },
+    "Greeting": {
+        "welcomeGuest": "欢迎使用 AI 聊天机器人",
+        "guestMessage": "登录以保存您的对话",
+        "helloUser": "您好，{name}",
+        "newChatMessage": "在下方开始新的对话",
+        "welcomeBack": "欢迎回来，{name}",
+        "continueMessage": "继续您的对话"
+    },
+    "ChatHeader": {
+        "untitledChat": "未命名对话",
+        "public": "公开",
+        "private": "私密",
+        "shareChat": "分享对话",
+        "settings": "设置"
+    },
+    "Artifact": {
+        "definitionNotFound": "未找到组件定义！",
+        "messagesContainer": "组件消息容器",
+        "copy": "复制",
+        "download": "下载",
+        "edit": "编辑",
+        "view": "查看",
+        "previous": "上一版本",
+        "next": "下一版本",
+        "latest": "最新版本",
+        "toggleDiff": "切换对比视图",
+        "executing": "正在执行操作...",
+        "artifactCopied": "已复制到剪贴板"
+    },
+    "Form": {
+        "loading": "正在加载",
+        "submitForm": "提交表单",
+        "saving": "正在保存...",
+        "saved": "已保存",
+        "submitting": "正在提交..."
+    }
+}

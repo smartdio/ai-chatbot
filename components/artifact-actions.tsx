@@ -5,6 +5,7 @@ import { Dispatch, memo, SetStateAction, useState } from 'react';
 import { ArtifactActionContext } from './create-artifact';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 interface ArtifactActionsProps {
   artifact: UIArtifact;
@@ -26,13 +27,27 @@ function PureArtifactActions({
   setMetadata,
 }: ArtifactActionsProps) {
   const [isLoading, setIsLoading] = useState(false);
+  
+  // 添加翻译hooks
+  const tErrors = useTranslations('Errors');
+  const tArtifact = useTranslations('Artifact');
+  
+  // 创建安全的翻译函数
+  const safeT = (namespace: 'Errors' | 'Artifact', key: string, params?: Record<string, string>) => {
+    try {
+      return namespace === 'Errors' ? tErrors(key, params) : tArtifact(key, params);
+    } catch (error) {
+      console.error(`Translation error for key: ${key} in ${namespace}`, error);
+      return key;
+    }
+  };
 
   const artifactDefinition = artifactDefinitions.find(
     (definition) => definition.kind === artifact.kind,
   );
 
   if (!artifactDefinition) {
-    throw new Error('Artifact definition not found!');
+    throw new Error(safeT('Artifact', 'definitionNotFound'));
   }
 
   const actionContext: ArtifactActionContext = {
@@ -62,7 +77,7 @@ function PureArtifactActions({
                 try {
                   await Promise.resolve(action.onClick(actionContext));
                 } catch (error) {
-                  toast.error('Failed to execute action');
+                  toast.error(safeT('Errors', 'failedToExecuteAction'));
                 } finally {
                   setIsLoading(false);
                 }
@@ -76,10 +91,10 @@ function PureArtifactActions({
               }
             >
               {action.icon}
-              {action.label}
+              {action.label && safeT('Artifact', action.label)}
             </Button>
           </TooltipTrigger>
-          <TooltipContent>{action.description}</TooltipContent>
+          <TooltipContent>{safeT('Artifact', action.description)}</TooltipContent>
         </Tooltip>
       ))}
     </div>

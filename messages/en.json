@@ -1,0 +1,134 @@
+{
+    "Common": {
+        "title": "PsyBot",
+        "newChat": "New Chat",
+        "send": "Send",
+        "clear": "Clear",
+        "settings": "Settings",
+        "logout": "Log out",
+        "darkMode": "Dark Mode",
+        "lightMode": "Light Mode",
+        "language": "Language",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "more": "More"
+    },
+    "Auth": {
+        "login": "Log In",
+        "register": "Register",
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "continueWith": "Or continue with",
+        "alreadyHaveAccount": "Already have an account?",
+        "dontHaveAccount": "Don't have an account?",
+        "signIn": "Sign In",
+        "signUp": "Sign up",
+        "useEmailPassword": "Use your email and password to sign in",
+        "createAccount": "Create an account with your email and password",
+        "invalidCredentials": "Invalid credentials!",
+        "validationFailed": "Failed validating your submission!",
+        "signUpForFree": "for free",
+        "instead": "instead",
+        "userExists": "Account already exists!",
+        "createFailed": "Failed to create account!",
+        "accountCreated": "Account created successfully!"
+    },
+    "Chat": {
+        "placeholder": "Type a message...",
+        "thinking": "AI is thinking...",
+        "modelSelector": "Select a model",
+        "newChat": "New Chat",
+        "clearChat": "Clear chat",
+        "uploadFile": "Upload file",
+        "drag": "Drag & drop files here or click to select",
+        "fileTooLarge": "File is too large",
+        "fileSizeLimit": "Maximum file size: 5MB"
+    },
+    "Settings": {
+        "language": "Language",
+        "deleteAccount": "Delete Account",
+        "apiKey": "API Key",
+        "saveChanges": "Save Changes",
+        "visibilityOptions": "Visibility Options",
+        "publicChat": "Public",
+        "privateChat": "Private",
+        "privateVisibilityDescription": "Only you can access this chat",
+        "publicVisibilityDescription": "Anyone with the link can access this chat"
+    },
+    "Errors": {
+        "somethingWentWrong": "Something went wrong",
+        "tryAgain": "Please try again",
+        "invalidCredentials": "Invalid email or password",
+        "serverError": "Server error, please try again later",
+        "notAuthorized": "You are not authorized to view this content",
+        "failedToExecuteAction": "Failed to execute action"
+    },
+    "MessageActions": {
+        "copy": "Copy",
+        "delete": "Delete",
+        "edit": "Edit",
+        "regenerate": "Regenerate",
+        "share": "Share"
+    },
+    "Weather": {
+        "current": "Current Weather",
+        "forecast": "Forecast",
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "wind": "Wind"
+    },
+    "Sidebar": {
+        "history": "Chat History",
+        "noChats": "No chats yet",
+        "searchPlaceholder": "Search chats...",
+        "startNewChat": "Start a new chat",
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "lastWeek": "Last Week",
+        "lastMonth": "Last Month",
+        "older": "Older",
+        "loadMore": "Load more",
+        "loginToSave": "Login to save and revisit previous chats!",
+        "deletingChat": "Deleting chat...",
+        "chatDeleted": "Chat deleted successfully",
+        "confirmDelete": "Confirm deletion",
+        "deleteWarning": "This action cannot be undone. This will permanently delete your chat."
+    },
+    "Greeting": {
+        "welcomeGuest": "Welcome to AI Chatbot",
+        "guestMessage": "Sign in to save your conversations",
+        "helloUser": "Hello, {name}",
+        "newChatMessage": "Start a new conversation below",
+        "welcomeBack": "Welcome back, {name}",
+        "continueMessage": "Continue your conversation"
+    },
+    "ChatHeader": {
+        "untitledChat": "Untitled Chat",
+        "public": "Public",
+        "private": "Private",
+        "shareChat": "Share Chat",
+        "settings": "Settings"
+    },
+    "Artifact": {
+        "definitionNotFound": "Artifact definition not found!",
+        "messagesContainer": "Artifact messages container",
+        "copy": "Copy",
+        "download": "Download",
+        "edit": "Edit",
+        "view": "View",
+        "previous": "Previous version",
+        "next": "Next version",
+        "latest": "Latest version",
+        "toggleDiff": "Toggle diff view",
+        "executing": "Executing action...",
+        "artifactCopied": "Artifact copied to clipboard"
+    },
+    "Form": {
+        "loading": "Loading",
+        "submitForm": "Submit form",
+        "saving": "Saving...",
+        "saved": "Saved",
+        "submitting": "Submitting..."
+    }
+}

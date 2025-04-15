@@ -1,0 +1,69 @@
+{
+    "Common": {
+        "title": "AI Chatbot",
+        "newChat": "New Chat",
+        "send": "Send",
+        "clear": "Clear",
+        "settings": "Settings",
+        "logout": "Log out",
+        "darkMode": "Dark Mode",
+        "lightMode": "Light Mode"
+    },
+    "Auth": {
+        "login": "Log In",
+        "register": "Register",
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "continueWith": "Or continue with",
+        "alreadyHaveAccount": "Already have an account?",
+        "dontHaveAccount": "Don't have an account?"
+    },
+    "Chat": {
+        "placeholder": "Type a message...",
+        "thinking": "AI is thinking...",
+        "modelSelector": "Select a model",
+        "newChat": "New Chat",
+        "clearChat": "Clear chat",
+        "uploadFile": "Upload file",
+        "drag": "Drag & drop files here or click to select",
+        "fileTooLarge": "File is too large",
+        "fileSizeLimit": "Maximum file size: 5MB"
+    },
+    "Settings": {
+        "language": "Language",
+        "deleteAccount": "Delete Account",
+        "apiKey": "API Key",
+        "saveChanges": "Save Changes",
+        "visibilityOptions": "Visibility Options",
+        "publicChat": "Public",
+        "privateChat": "Private"
+    },
+    "Errors": {
+        "somethingWentWrong": "Something went wrong",
+        "tryAgain": "Please try again",
+        "invalidCredentials": "Invalid email or password",
+        "serverError": "Server error, please try again later",
+        "notAuthorized": "You are not authorized to view this content"
+    },
+    "MessageActions": {
+        "copy": "Copy",
+        "delete": "Delete",
+        "edit": "Edit",
+        "regenerate": "Regenerate",
+        "share": "Share"
+    },
+    "Weather": {
+        "current": "Current Weather",
+        "forecast": "Forecast",
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "wind": "Wind"
+    },
+    "Sidebar": {
+        "history": "Chat History",
+        "noChats": "No chats yet",
+        "searchPlaceholder": "Search chats...",
+        "startNewChat": "Start a new chat"
+    }
+}

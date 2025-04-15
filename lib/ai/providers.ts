@@ -46,10 +46,10 @@ export const myProvider = isTestEnvironment
         //   model: xai('grok-3-mini-beta'),
         //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
         // }),
-        'title-model': wrapLanguageModel({
-          model: qwq('qwq-32k:latest'),
-          middleware: extractReasoningMiddleware({ tagName: 'think' }),
-        }),
+        // 'title-model': wrapLanguageModel({
+        //   model: qwq('qwq-32k:latest'),
+        //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
+        // }),
 
         'artifact-model': xai('grok-2-1212'),
       },

@@ -46,7 +46,7 @@ export const myProvider = isTestEnvironment
           model: xai('grok-3-mini-beta'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        'title-model': qwq('qwq-32k:latest'),
+        'title-model': qwq('qwen2.5:32b'),
         'artifact-model': xai('grok-2-1212'),
       },
       imageModels: {

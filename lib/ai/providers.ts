@@ -34,10 +34,10 @@ export const myProvider = isTestEnvironment
     })
   : customProvider({
       languageModels: {
-        // 'chat-model': wrapLanguageModel({
-        //   model: qwq('qwq-32k:latest'),
-        //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
-        // }),
+        'chat-model': wrapLanguageModel({
+          model: proModel('james'),
+          middleware: extractReasoningMiddleware({ tagName: 'think' }),
+        }),
         'pro-model': wrapLanguageModel({
           model: proModel('james'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),

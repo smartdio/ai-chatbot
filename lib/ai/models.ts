@@ -7,19 +7,19 @@ interface ChatModel {
 }
 
 export const chatModels: Array<ChatModel> = [
-  {
-    id: 'chat-model',
-    name: 'Chat model',
-    description: 'Primary model for all-purpose chat',
-  },
+  // {
+  //   id: 'chat-model',
+  //   name: 'Chat model',
+  //   description: 'Primary model for all-purpose chat',
+  // },
   {
     id: 'pro-model',
     name: 'Professional model',
     description: 'Specialized in professional and technical topics',
   },
-  {
-    id: 'chat-model-reasoning',
-    name: 'Reasoning model',
-    description: 'Uses advanced reasoning',
-  },
+  // {
+  //   id: 'chat-model-reasoning',
+  //   name: 'Reasoning model',
+  //   description: 'Uses advanced reasoning',
+  // },
 ];

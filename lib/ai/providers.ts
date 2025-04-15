@@ -34,10 +34,10 @@ export const myProvider = isTestEnvironment
     })
   : customProvider({
       languageModels: {
-        'chat-model': wrapLanguageModel({
-          model: qwq('qwq-32k:latest'),
-          middleware: extractReasoningMiddleware({ tagName: 'think' }),
-        }),
+        // 'chat-model': wrapLanguageModel({
+        //   model: qwq('qwq-32k:latest'),
+        //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
+        // }),
         'pro-model': wrapLanguageModel({
           model: proModel('james'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
@@ -46,7 +46,7 @@ export const myProvider = isTestEnvironment
           model: xai('grok-3-mini-beta'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        'title-model': qwq('qwq:latest'),
+        'title-model': qwq('qwq-32k:latest'),
         'artifact-model': xai('grok-2-1212'),
       },
       imageModels: {

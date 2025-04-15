@@ -97,8 +97,8 @@
         "deleteWarning": "此操作无法撤销，将永久删除您的聊天记录。"
     },
     "Greeting": {
-        "welcomeGuest": "欢迎使用 AI 聊天机器人",
-        "guestMessage": "登录以保存您的对话",
+        "welcomeGuest": "欢迎使用 PsyBot",
+        "guestMessage": "你的私人AI心理专家",
         "helloUser": "您好，{name}",
         "newChatMessage": "在下方开始新的对话",
         "welcomeBack": "欢迎回来，{name}",

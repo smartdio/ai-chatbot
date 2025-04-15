@@ -96,8 +96,8 @@
         "deleteWarning": "This action cannot be undone. This will permanently delete your chat."
     },
     "Greeting": {
-        "welcomeGuest": "Welcome to AI Chatbot",
-        "guestMessage": "Sign in to save your conversations",
+        "welcomeGuest": "Welcome to PsyBot",
+        "guestMessage": "Your private AI Psychologist",
         "helloUser": "Hello, {name}",
         "newChatMessage": "Start a new conversation below",
         "welcomeBack": "Welcome back, {name}",

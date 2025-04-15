@@ -38,18 +38,19 @@ export const myProvider = isTestEnvironment
           model: proModel('james'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        // 'pro-model': wrapLanguageModel({
-        //   model: proModel('james'),
-        //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
-        // }),
+        // 'chat-model': qwq('qwq-32k:latest'),
+        'pro-model': wrapLanguageModel({
+          model: proModel('james'),
+          middleware: extractReasoningMiddleware({ tagName: 'think' }),
+        }),
         // 'chat-model-reasoning': wrapLanguageModel({
         //   model: xai('grok-3-mini-beta'),
         //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
         // }),
-        // 'title-model': wrapLanguageModel({
-        //   model: qwq('qwq-32k:latest'),
-        //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
-        // }),
+        'title-model': wrapLanguageModel({
+          model: qwq('qwq-32k:latest'),
+          middleware: extractReasoningMiddleware({ tagName: 'think' }),
+        }),
 
         'artifact-model': xai('grok-2-1212'),
       },

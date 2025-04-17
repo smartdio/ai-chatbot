@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useState } from 'react';
 import type { Vote } from '@/lib/db/schema';
 import { DocumentToolCall, DocumentToolResult } from './document';
-import { PencilEditIcon, SparklesIcon } from './icons';
+import { PencilEditIcon, SparklesIcon ,PsyBotIcon} from './icons';
 import { Markdown } from './markdown';
 import { MessageActions } from './message-actions';
 import { PreviewAttachment } from './preview-attachment';
@@ -62,7 +62,7 @@ const PurePreviewMessage = ({
           {message.role === 'assistant' && (
             <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background">
               <div className="translate-y-px">
-                <SparklesIcon size={14} />
+                <PsyBotIcon size={18} />
               </div>
             </div>
           )}
@@ -258,7 +258,7 @@ export const ThinkingMessage = () => {
       <div className="flex gap-4">
         <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background">
           <div className="translate-y-px">
-            <SparklesIcon size={14} />
+            <PsyBotIcon size={18} />
           </div>
         </div>
 

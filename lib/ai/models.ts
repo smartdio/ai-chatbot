@@ -12,11 +12,11 @@ export const chatModels: Array<ChatModel> = [
     name: 'Chat model',
     description: 'Primary model for all-purpose chat',
   },
-  // {
-  //   id: 'pro-model',
-  //   name: 'Professional model',
-  //   description: 'Specialized in professional and technical topics',
-  // },
+  {
+    id: 'pro-model',
+    name: 'Professional model',
+    description: 'Specialized in professional and technical topics',
+  },
   // {
   //   id: 'chat-model-reasoning',
   //   name: 'Reasoning model',

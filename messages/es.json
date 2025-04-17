@@ -35,7 +35,7 @@
         "accountCreated": "¡Cuenta creada con éxito!"
     },
     "Chat": {
-        "placeholder": "Escriba un mensaje...",
+        "placeholder": "Escriba un mensaje, Shift+Enter para nueva línea...",
         "thinking": "La IA está pensando...",
         "modelSelector": "Seleccionar un modelo",
         "newChat": "Nueva conversación",

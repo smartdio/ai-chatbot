@@ -35,7 +35,7 @@
         "accountCreated": "账号创建成功！"
     },
     "Chat": {
-        "placeholder": "输入消息...",
+        "placeholder": "输入消息, Shift+Enter换行...",
         "thinking": "AI 正在思考...",
         "modelSelector": "选择模型",
         "newChat": "新对话",

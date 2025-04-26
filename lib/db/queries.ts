@@ -1,7 +1,16 @@
 import 'server-only';
 
-import { genSaltSync, hashSync } from 'bcrypt-ts';
-import { and, asc, desc, eq, gt, gte, inArray, lt, SQL } from 'drizzle-orm';
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  gt,
+  gte,
+  inArray,
+  lt,
+  type SQL,
+} from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
@@ -15,9 +24,10 @@ import {
   message,
   vote,
   type DBMessage,
-  Chat,
+  type Chat,
 } from './schema';
-import { ArtifactKind } from '@/components/artifact';
+import type { ArtifactKind } from '@/components/artifact';
+import { generateHashedPassword } from './utils';
 
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
@@ -37,11 +47,10 @@ export async function getUser(email: string): Promise<Array<User>> {
 }
 
 export async function createUser(email: string, password: string) {
-  const salt = genSaltSync(10);
-  const hash = hashSync(password, salt);
+  const hashedPassword = generateHashedPassword(password);
 
   try {
-    return await db.insert(user).values({ email, password: hash });
+    return await db.insert(user).values({ email, password: hashedPassword });
   } catch (error) {
     console.error('Failed to create user in database');
     throw error;
@@ -75,7 +84,11 @@ export async function deleteChatById({ id }: { id: string }) {
     await db.delete(vote).where(eq(vote.chatId, id));
     await db.delete(message).where(eq(message.chatId, id));
 
-    return await db.delete(chat).where(eq(chat.id, id));
+    const [chatsDeleted] = await db
+      .delete(chat)
+      .where(eq(chat.id, id))
+      .returning();
+    return chatsDeleted;
   } catch (error) {
     console.error('Failed to delete chat by id from database');
     throw error;
@@ -241,14 +254,17 @@ export async function saveDocument({
   userId: string;
 }) {
   try {
-    return await db.insert(document).values({
-      id,
-      title,
-      kind,
-      content,
-      userId,
-      createdAt: new Date(),
-    });
+    return await db
+      .insert(document)
+      .values({
+        id,
+        title,
+        kind,
+        content,
+        userId,
+        createdAt: new Date(),
+      })
+      .returning();
   } catch (error) {
     console.error('Failed to save document in database');
     throw error;
@@ -304,7 +320,8 @@ export async function deleteDocumentsByIdAfterTimestamp({
 
     return await db
       .delete(document)
-      .where(and(eq(document.id, id), gt(document.createdAt, timestamp)));
+      .where(and(eq(document.id, id), gt(document.createdAt, timestamp)))
+      .returning();
   } catch (error) {
     console.error(
       'Failed to delete documents by id after timestamp from database',

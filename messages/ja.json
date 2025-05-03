@@ -43,7 +43,8 @@
         "uploadFile": "ファイルをアップロード",
         "drag": "ここにファイルをドラッグ＆ドロップするか、クリックして選択",
         "fileTooLarge": "ファイルが大きすぎます",
-        "fileSizeLimit": "最大ファイルサイズ：5MB"
+        "fileSizeLimit": "最大ファイルサイズ：5MB",
+        "stop": "停止"
     },
     "Settings": {
         "language": "言語",

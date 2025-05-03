@@ -43,7 +43,8 @@
         "uploadFile": "Upload file",
         "drag": "Drag & drop files here or click to select",
         "fileTooLarge": "File is too large",
-        "fileSizeLimit": "Maximum file size: 5MB"
+        "fileSizeLimit": "Maximum file size: 5MB",
+        "stop": "Stop"
     },
     "Settings": {
         "language": "Language",

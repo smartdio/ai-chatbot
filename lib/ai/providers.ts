@@ -45,6 +45,7 @@ export const myProvider = isTestEnvironment
   : customProvider({
       languageModels: {
         'chat-model': qwen('qwen-max'),
+        // 'chat-model': proModelTest('psybot-one'),
         // 'chat-model': qwq('qwq-32k:latest'),
         'pro-model': wrapLanguageModel({
           model: proModel('james'),

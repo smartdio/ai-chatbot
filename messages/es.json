@@ -43,7 +43,8 @@
         "uploadFile": "Subir archivo",
         "drag": "Arrastre y suelte archivos aquí o haga clic para seleccionar",
         "fileTooLarge": "El archivo es demasiado grande",
-        "fileSizeLimit": "Tamaño máximo del archivo: 5MB"
+        "fileSizeLimit": "Tamaño máximo de archivo: 5MB",
+        "stop": "Detener"
     },
     "Settings": {
         "language": "Idioma",

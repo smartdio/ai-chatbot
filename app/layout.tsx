@@ -6,6 +6,7 @@ import { I18nProvider } from '@/lib/i18n/i18n-provider';
 import { cookies } from 'next/headers';
 import { LanguageDebug } from '@/components/language-debug';
 import { locales, defaultLocale } from '@/lib/i18n/utils';
+import Script from 'next/script';
 
 import './globals.css';
 
@@ -116,9 +117,9 @@ export default async function RootLayout({
           <I18nProvider initialLocale={locale} messages={messages}>
             <Toaster position="top-center" />
             {children}
-            {isDevelopment && <LanguageDebug />}
           </I18nProvider>
         </ThemeProvider>
+        <Script src="/service-worker.js" />
       </body>
     </html>
   );

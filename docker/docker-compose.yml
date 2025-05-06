@@ -1,0 +1,40 @@
+# docker/docker-compose.yml
+version: "3.8" # 使用较新的 Compose 文件版本
+
+services:
+  app: # 服务名称，可以自定义
+    # 不再使用 build 指令
+    # build:
+    #   context: .. # 构建上下文设置为 docker-compose.yml 文件所在目录的上一级，即项目根目录
+    #   dockerfile: docker/Dockerfile # 指定 Dockerfile 的路径，相对于 context
+    # 直接指定要使用的镜像名称和标签
+    # 你需要将 'ai-chatbot:latest' 替换为你实际构建的镜像标签
+    # 例如 'your-dockerhub-username/ai-chatbot:1.0.0' 或 'ghcr.io/your-username/ai-chatbot:latest'
+    image: ai-chatbot:latest
+    container_name: ai-chatbot-app # 容器的名称
+    ports:
+      - "3000:3000" # 将宿主机的 3000 端口映射到容器的 3000 端口
+    # 可选: 挂载卷 (例如，如果你想在开发中实时看到代码更改，但这通常不用于生产部署镜像)
+    # volumes:
+    #   - ..:/app # 将项目根目录挂载到容器的 /app (注意: 这会覆盖镜像中的代码)
+    #   - /app/node_modules # 避免本地 node_modules 覆盖镜像中的
+    #   - /app/.next # 避免本地 .next 覆盖镜像中的
+    environment:
+      # 从宿主机环境继承 NODE_ENV，如果没有则默认为 production
+      NODE_ENV: ${NODE_ENV:-production}
+      # PORT 环境变量在 Dockerfile 和 start.sh 中已经处理，这里可以不写
+      # PORT: 3000
+      # 在这里添加其他应用需要的环境变量
+      # 例如，数据库连接字符串等
+      # DATABASE_URL: ${DATABASE_URL} # 从宿主机环境或 .env 文件读取
+    # 可选: 引用一个 .env 文件来加载环境变量
+    env_file:
+      - ../.env # 从项目根目录的 .env 文件加载环境变量 (如果存在)
+    restart: unless-stopped # 容器退出时自动重启，除非手动停止
+    # 可选：指定网络，如果需要连接其他服务 (如数据库)
+    # networks:
+    #   - app-network
+# 可选：定义网络
+# networks:
+#   app-network:
+#     driver: bridge

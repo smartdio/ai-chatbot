@@ -37,6 +37,7 @@ WORKDIR /app
 
 # Set environment to production
 ENV NODE_ENV=production
+ENV RUNNING_IN_DOCKER=true
 # Uncomment the following line if you need to specify a hostname
 # ENV HOSTNAME="0.0.0.0"
 # Set the default port

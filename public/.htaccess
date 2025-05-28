@@ -1,0 +1,12 @@
+# Apache配置文件，用于处理PATH_PRE前缀的静态资源
+# 如果使用Apache服务器，这个文件会自动处理静态资源路径
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # 如果请求的是_next静态资源，直接提供服务
+    RewriteRule ^_next/(.*)$ /_next/$1 [L]
+    
+    # 如果请求的是静态文件，直接提供服务
+    RewriteRule ^(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$ /$1 [L]
+</IfModule> 

@@ -53,6 +53,7 @@ PATH_PRE=/chatbot
 ### 1. 自动处理的组件
 
 - **Next.js basePath**: 自动配置 `next.config.ts` 中的 `basePath`
+- **静态资源前缀**: 自动配置 `assetPrefix` 确保JS/CSS等资源正确加载
 - **认证路径**: NextAuth 的登录、注册路径自动添加前缀
 - **中间件重定向**: 自动处理路径前缀的重定向逻辑
 - **内部链接**: 使用 `PATH_CONFIG` 的所有链接自动包含前缀
@@ -95,7 +96,23 @@ const baseUrl = getBaseUrl(); // http://localhost:3000/chatbot
 
 ## 部署注意事项
 
-### 1. Nginx 反向代理
+### 1. 构建和启动
+
+**重要**: 设置 PATH_PRE 后必须重新构建项目：
+
+```bash
+# 清理并重新构建
+rm -rf .next
+PATH_PRE=/chat npm run build
+
+# 启动生产服务器
+PATH_PRE=/chat npm start
+
+# 或者开发模式
+PATH_PRE=/chat npm run dev
+```
+
+### 2. Nginx 反向代理
 
 ```nginx
 location /chatbot/ {
@@ -107,14 +124,15 @@ location /chatbot/ {
 }
 ```
 
-### 2. Docker 部署
+### 3. Docker 部署
 
 ```dockerfile
 ENV PATH_PRE=/chatbot
 ENV NEXTAUTH_URL=https://yourdomain.com/chatbot
+RUN npm run build
 ```
 
-### 3. Vercel 部署
+### 4. Vercel 部署
 
 在 Vercel 环境变量中设置：
 - `PATH_PRE`: `/chatbot`
@@ -122,7 +140,28 @@ ENV NEXTAUTH_URL=https://yourdomain.com/chatbot
 
 ## 故障排除
 
-### 1. 重定向循环
+### 1. 静态资源404错误
+
+**问题**: 设置前缀后，JS/CSS文件返回404错误
+
+**解决方案**:
+```bash
+# 1. 清理构建缓存
+rm -rf .next
+
+# 2. 重新构建（必须带前缀）
+PATH_PRE=/chat npm run build
+
+# 3. 启动服务器（必须带前缀）
+PATH_PRE=/chat npm start
+```
+
+**验证**: 使用测试脚本检查静态资源：
+```bash
+node scripts/test-static-assets.js
+```
+
+### 2. 重定向循环
 确保 `NEXTAUTH_URL` 包含正确的前缀：
 ```bash
 # 错误
@@ -134,9 +173,6 @@ NEXTAUTH_URL=http://localhost:3000/chatbot
 PATH_PRE=/chatbot
 ```
 
-### 2. 静态资源404
-Next.js 会自动处理静态资源的前缀，无需额外配置。
-
 ### 3. API 路由问题
 API 路由会自动包含前缀，确保客户端请求使用正确的路径：
 ```typescript
@@ -144,10 +180,18 @@ API 路由会自动包含前缀，确保客户端请求使用正确的路径：
 fetch(`${PATH_CONFIG.api}/chat`)
 ```
 
+### 4. 中间件配置问题
+确保中间件正确排除静态资源：
+```typescript
+// middleware.ts 中的 matcher 配置
+matcher: [
+  '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)',
+]
+```
+
 ## 测试
 
-启动开发服务器并测试不同的前缀配置：
-
+### 1. 基本功能测试
 ```bash
 # 测试无前缀
 PATH_PRE= npm run dev
@@ -156,4 +200,30 @@ PATH_PRE= npm run dev
 PATH_PRE=/chatbot npm run dev
 ```
 
-访问 `http://localhost:3000/chatbot` 验证配置是否正确。 
+### 2. 静态资源测试
+```bash
+# 启动服务器
+PATH_PRE=/chat npm run build && PATH_PRE=/chat npm start
+
+# 运行静态资源测试
+node scripts/test-static-assets.js
+```
+
+### 3. 路径配置测试
+```bash
+# 运行路径配置测试
+node scripts/test-path-config.js
+```
+
+访问 `http://localhost:3000/chatbot` 验证配置是否正确。
+
+## 常见问题
+
+### Q: 为什么设置前缀后静态资源404？
+A: Next.js 需要在构建时知道 basePath，必须在构建时设置 PATH_PRE 环境变量。
+
+### Q: 开发模式下工作，生产模式下不工作？
+A: 确保生产构建时也设置了 PATH_PRE 环境变量。
+
+### Q: 部分页面工作，部分页面不工作？
+A: 检查是否所有内部链接都使用了 PATH_CONFIG 而不是硬编码路径。 

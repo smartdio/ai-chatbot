@@ -15,6 +15,17 @@ export default async function middleware(request: NextRequest) {
   // 记录当前请求路径，方便调试
   console.log(`处理路径: ${originalPath}, 前缀: ${pathPrefix || '无'}`);
   
+  // 检查是否是静态资源或Next.js内部路径
+  const isStaticFile = originalPath.startsWith('/_next/') || 
+                      originalPath.startsWith('/static/') ||
+                      originalPath.includes('.') && !originalPath.endsWith('/');
+  
+  // 如果是静态资源，直接通过，不做任何处理
+  if (isStaticFile) {
+    console.log(`静态资源，直接通过: ${originalPath}`);
+    return NextResponse.next();
+  }
+  
   // 如果有路径前缀，检查请求是否包含前缀
   if (pathPrefix) {
     // 如果请求路径不包含前缀，重定向到包含前缀的路径
@@ -100,7 +111,17 @@ export default async function middleware(request: NextRequest) {
   return response;
 }
 
-// 修改matcher以匹配所有路径，包括带前缀的路径
+// 更新matcher，明确排除静态资源和Next.js内部路径
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.png$).*)'],
+  matcher: [
+    /*
+     * 匹配所有请求路径，除了：
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - 任何包含文件扩展名的路径
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)',
+  ],
 };

@@ -13,9 +13,14 @@ const getPathPrefix = (): string => {
   return cleanPath ? `/${cleanPath}` : '';
 };
 
+const basePath = getPathPrefix();
+
 const nextConfig: NextConfig = {
   // 添加 basePath 支持
-  basePath: getPathPrefix(),
+  basePath,
+  
+  // 确保静态资源使用正确的路径
+  assetPrefix: basePath,
   
   experimental: {
     ppr: true,
@@ -26,6 +31,18 @@ const nextConfig: NextConfig = {
         hostname: 'avatar.vercel.sh',
       },
     ],
+  },
+  
+  // 添加重写规则以处理静态资源
+  async rewrites() {
+    if (!basePath) return [];
+    
+    return [
+      {
+        source: '/_next/:path*',
+        destination: '/_next/:path*',
+      },
+    ];
   },
 };
 

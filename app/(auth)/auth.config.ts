@@ -1,9 +1,10 @@
 import type { NextAuthConfig } from 'next-auth';
+import { PATH_CONFIG } from '@/lib/path-config';
 
 export const authConfig = {
   pages: {
-    signIn: '/login',
-    newUser: '/',
+    signIn: PATH_CONFIG.login,
+    newUser: PATH_CONFIG.home,
   },
   trustHost: true,
   providers: [
@@ -13,12 +14,12 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnChat = nextUrl.pathname.startsWith('/');
-      const isOnRegister = nextUrl.pathname.startsWith('/register');
-      const isOnLogin = nextUrl.pathname.startsWith('/login');
+      const isOnChat = nextUrl.pathname.startsWith(PATH_CONFIG.home);
+      const isOnRegister = nextUrl.pathname.startsWith(PATH_CONFIG.register);
+      const isOnLogin = nextUrl.pathname.startsWith(PATH_CONFIG.login);
 
       if (isLoggedIn && (isOnLogin || isOnRegister)) {
-        return Response.redirect(new URL('/', nextUrl as unknown as URL));
+        return Response.redirect(new URL(PATH_CONFIG.home, nextUrl as unknown as URL));
       }
 
       if (isOnRegister || isOnLogin) {
@@ -31,7 +32,7 @@ export const authConfig = {
       }
 
       if (isLoggedIn) {
-        return Response.redirect(new URL('/', nextUrl as unknown as URL));
+        return Response.redirect(new URL(PATH_CONFIG.home, nextUrl as unknown as URL));
       }
 
       return true;

@@ -46,9 +46,47 @@ You can deploy your own version of the Next.js AI Chatbot to Vercel with one cli
 
 ## Running locally
 
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
+You will need to use the environment variables to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env.local` file is all that is necessary.
 
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
+### Environment Variables
+
+Create a `.env.local` file with the following variables:
+
+```bash
+# 路径前缀配置（可选）
+# 用于为应用添加路径前缀，如 /chatbot, /api/v1 等
+# 留空表示没有前缀（默认行为）
+PATH_PRE=
+
+# 数据库配置
+POSTGRES_URL=your_postgres_url
+
+# 认证配置
+AUTH_SECRET=your_auth_secret
+NEXTAUTH_URL=http://localhost:3000
+
+# AI 提供商配置
+QWEN_API_KEY=your_qwen_api_key
+```
+
+> Note: You should not commit your `.env.local` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
+
+### PATH_PRE Configuration
+
+The `PATH_PRE` environment variable allows you to deploy the application under a subpath. This is useful for:
+
+- Deploying under a subpath (e.g., `/chatbot`, `/api/v1`)
+- Multi-tenant applications
+- Reverse proxy configurations
+- Microservice architectures
+
+**Examples:**
+- `PATH_PRE=` (default): Access at `http://localhost:3000/`
+- `PATH_PRE=/chatbot`: Access at `http://localhost:3000/chatbot/`
+
+For detailed configuration instructions, see [PATH_PRE Setup Guide](doc/PATH_PRE_SETUP.md).
+
+### Installation
 
 1. Install Vercel CLI: `npm i -g vercel`
 2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`

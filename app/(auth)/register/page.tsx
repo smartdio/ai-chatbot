@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { PATH_CONFIG } from '@/lib/path-config';
 
 import { AuthForm } from '@/components/auth-form';
 import { SubmitButton } from '@/components/submit-button';
@@ -89,7 +90,7 @@ export default function Page() {
           <p className="text-center text-sm text-blue-700/80 mt-4 dark:text-blue-300/80">
             {safeT('alreadyHaveAccount')}{' '}
             <Link
-              href="/login"
+              href={PATH_CONFIG.login}
               className="font-semibold text-blue-800 hover:text-blue-900 hover:underline dark:text-blue-200 dark:hover:text-blue-100"
             >
               {safeT('signIn')}

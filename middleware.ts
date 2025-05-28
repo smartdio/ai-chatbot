@@ -48,14 +48,17 @@ export default async function middleware(request: NextRequest) {
     // @ts-ignore - 类型不匹配，但实际功能正常
     const authResponse = await authMiddleware(pathPrefix ? modifiedRequest : request);
     if (authResponse) {
-      // 如果有重定向响应，确保包含路径前缀
-      if (authResponse.status >= 300 && authResponse.status < 400) {
-        const location = authResponse.headers.get('location');
-        if (location && pathPrefix && !location.includes(pathPrefix)) {
-          const url = new URL(location);
-          if (url.pathname && !url.pathname.startsWith(pathPrefix)) {
-            url.pathname = `${pathPrefix}${url.pathname}`;
-            return NextResponse.redirect(url.toString());
+      // 检查是否是 Response 对象（重定向响应）
+      if (authResponse instanceof Response) {
+        // 如果有重定向响应，确保包含路径前缀
+        if (authResponse.status >= 300 && authResponse.status < 400) {
+          const location = authResponse.headers.get('location');
+          if (location && pathPrefix && !location.includes(pathPrefix)) {
+            const url = new URL(location);
+            if (url.pathname && !url.pathname.startsWith(pathPrefix)) {
+              url.pathname = `${pathPrefix}${url.pathname}`;
+              return NextResponse.redirect(url.toString());
+            }
           }
         }
       }

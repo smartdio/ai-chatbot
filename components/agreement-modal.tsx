@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { X } from 'lucide-react';
 import { Button } from './ui/button';
+import { Markdown } from './markdown';
 
 interface AgreementModalProps {
   isOpen: boolean;
@@ -118,10 +119,7 @@ export function AgreementModal({ isOpen, onClose }: AgreementModalProps) {
           
           {content && (
             <div className="prose prose-sm max-w-none dark:prose-invert">
-              <div 
-                className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br/>') }}
-              />
+              <Markdown>{content}</Markdown>
             </div>
           )}
         </div>

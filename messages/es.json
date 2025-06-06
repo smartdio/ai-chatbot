@@ -32,7 +32,12 @@
         "instead": "En su lugar",
         "userExists": "¡La cuenta ya existe!",
         "createFailed": "Error al crear la cuenta!",
-        "accountCreated": "¡Cuenta creada con éxito!"
+        "accountCreated": "¡Cuenta creada con éxito!",
+        "agreeToTerms": "He leído y acepto los",
+        "userAgreement": "Términos de Usuario",
+        "mustAgreeToTerms": "Por favor acepta los términos primero",
+        "viewAgreement": "Ver Acuerdo",
+        "close": "Cerrar"
     },
     "Chat": {
         "placeholder": "Escriba un mensaje, Shift+Enter para nueva línea...",

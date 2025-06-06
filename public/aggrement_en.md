@@ -82,7 +82,4 @@ Any disputes arising from or related to this Agreement shall be resolved through
 
 By proceeding, you confirm that you meet the eligibility criteria, agree to comply with all ethical and legal obligations, and accept the terms of this Agreement.
 
-☐ I AGREE and wish to proceed with registration
- ☐ I DO NOT AGREE
-
  

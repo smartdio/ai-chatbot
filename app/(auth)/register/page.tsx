@@ -8,6 +8,7 @@ import { PATH_CONFIG } from '@/lib/path-config';
 
 import { AuthForm } from '@/components/auth-form';
 import { SubmitButton } from '@/components/submit-button';
+import { AgreementModal } from '@/components/agreement-modal';
 
 import { register, type RegisterActionState } from '../actions';
 import { toast } from '@/components/toast';
@@ -30,6 +31,8 @@ export default function Page() {
 
   const [email, setEmail] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
+  const [agreementChecked, setAgreementChecked] = useState(false);
+  const [showAgreementModal, setShowAgreementModal] = useState(false);
 
   const [state, formAction] = useActionState<RegisterActionState, FormData>(
     register,
@@ -57,8 +60,26 @@ export default function Page() {
   }, [state]);
 
   const handleSubmit = (formData: FormData) => {
+    // 检查是否同意用户协议
+    if (!agreementChecked) {
+      toast({ type: 'error', description: safeT('mustAgreeToTerms') });
+      return;
+    }
+    
     setEmail(formData.get('email') as string);
     formAction(formData);
+  };
+
+  const handleAgreementChange = (checked: boolean) => {
+    setAgreementChecked(checked);
+  };
+
+  const handleAgreementClick = () => {
+    setShowAgreementModal(true);
+  };
+
+  const handleCloseAgreementModal = () => {
+    setShowAgreementModal(false);
   };
 
   return (
@@ -83,7 +104,14 @@ export default function Page() {
             {safeT('createAccount')}
           </p>
         </div>
-        <AuthForm action={handleSubmit} defaultEmail={email}>
+        <AuthForm 
+          action={handleSubmit} 
+          defaultEmail={email}
+          showAgreement={true}
+          agreementChecked={agreementChecked}
+          onAgreementChange={handleAgreementChange}
+          onAgreementClick={handleAgreementClick}
+        >
           <SubmitButton isSuccessful={isSuccessful}>
             {safeT('signUp')}
           </SubmitButton>
@@ -98,6 +126,12 @@ export default function Page() {
             {' ' + safeT('instead')}
           </p>
         </AuthForm>
+
+        {/* 协议模态框 */}
+        <AgreementModal 
+          isOpen={showAgreementModal} 
+          onClose={handleCloseAgreementModal} 
+        />
       </div>
     </div>
   );

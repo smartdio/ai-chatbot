@@ -32,7 +32,12 @@
         "instead": "直接",
         "userExists": "账号已存在！",
         "createFailed": "创建账号失败！",
-        "accountCreated": "账号创建成功！"
+        "accountCreated": "账号创建成功！",
+        "agreeToTerms": "我已阅读并同意",
+        "userAgreement": "用户协议",
+        "mustAgreeToTerms": "请先同意用户协议",
+        "viewAgreement": "查看协议",
+        "close": "关闭"
     },
     "Chat": {
         "placeholder": "输入消息, Shift+Enter换行...",

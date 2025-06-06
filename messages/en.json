@@ -32,7 +32,12 @@
         "instead": "instead",
         "userExists": "Account already exists!",
         "createFailed": "Failed to create account!",
-        "accountCreated": "Account created successfully!"
+        "accountCreated": "Account created successfully!",
+        "agreeToTerms": "I have read and agree to the",
+        "userAgreement": "User Agreement",
+        "mustAgreeToTerms": "Please agree to the terms first",
+        "viewAgreement": "View Agreement",
+        "close": "Close"
     },
     "Chat": {
         "placeholder": "Type a message, Shift+Enter for new line...",

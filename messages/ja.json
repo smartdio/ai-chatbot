@@ -32,7 +32,12 @@
         "instead": "直接",
         "userExists": "アカウントが既に存在します",
         "createFailed": "アカウントの作成に失敗しました",
-        "accountCreated": "アカウントが正常に作成されました"
+        "accountCreated": "アカウントが正常に作成されました",
+        "agreeToTerms": "私は読んで同意します",
+        "userAgreement": "利用規約",
+        "mustAgreeToTerms": "まず利用規約に同意してください",
+        "viewAgreement": "規約を見る",
+        "close": "閉じる"
     },
     "Chat": {
         "placeholder": "メッセージを入力...",

@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   
   try {
     // 根据语言选择协议文件
-    const fileName = locale === 'zh' ? 'aggrement.md' : 'aggrement_en.md';
+    const fileName = locale === 'zh' ? 'agreement.md' : 'agreement_en.md';
     const filePath = join(process.cwd(), 'public', fileName);
     
     // 读取文件内容
